@@ -73,7 +73,7 @@ const BarChartNeos = () => {
               "NEOS min and max estimated diameter, sorted by average estimated diameter descending",
             chartArea: { width: "50%" },
             hAxis: {
-              itle: "min and max estimated diameter",
+              title: "min and max estimated diameter",
               minValue: 0,
             },
             vAxis: {
