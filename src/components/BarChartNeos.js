@@ -10,7 +10,7 @@ const BarChartNeos = () => {
     const fetchNeos = async () => {
       try {
         const response = await axios.get(
-          "https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=DEMO_KEY"
+          `https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=${process.env.REACT_APP_API_KEY_NASA}`
         );
         const data = response.data.near_earth_objects.map((neo) => ({
           name: neo.name,
