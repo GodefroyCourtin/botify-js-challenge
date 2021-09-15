@@ -5,10 +5,15 @@ import { averageNeoDiameter } from "../helpers/meanDiameterCalculation";
 
 const BarChartNeos = () => {
   const [neos, setNeos] = useState([]);
+  // load time management
+  const [isLoading, setIsLoading] = useState(false);
+  // error management
+  const [error, setError] = useState(null);
 
   // fetch Neos's data from nasa api
   useEffect(() => {
     const fetchNeos = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get(
           `https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=${process.env.REACT_APP_API_KEY_NASA}`
@@ -20,10 +25,12 @@ const BarChartNeos = () => {
           estimated_diameter_min:
             neo.estimated_diameter.kilometers.estimated_diameter_min,
         }));
+        setIsLoading(false);
         // set new state with data we have just fetched
         setNeos(data);
       } catch (err) {
         console.error(err);
+        setError(err);
       }
     };
     fetchNeos();
@@ -36,16 +43,21 @@ const BarChartNeos = () => {
 
   // format data to match with google chart data structure
   const formatData = [
-    ["Name", "Estimated diameter max", "Estimated diameter min"],
+    ["Name", "Estimated diameter min", "Estimated diameter max"],
     ...sorted.map((neo) => [
       neo.name,
-      neo.estimated_diameter_max,
       neo.estimated_diameter_min,
+      neo.estimated_diameter_max,
     ]),
   ];
 
   return (
-    <div>
+    <section>
+      {/* if the page is loading, display a text that it is loading */}
+      {isLoading && <p>Loading…</p>}
+      {/* if there is an error, display the arror message  */}
+      {error && <p>We encountered an error: {error.message}</p>}
+      {/* if the array contains at least one element, display the Chart */}
       {neos.length > 0 && (
         <Chart
           width={"1000px"}
@@ -69,7 +81,7 @@ const BarChartNeos = () => {
           rootProps={{ "data-testid": "1" }}
         />
       )}
-    </div>
+    </section>
   );
 };
 
