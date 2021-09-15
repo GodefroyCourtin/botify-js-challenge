@@ -16,7 +16,7 @@ const BarChartNeos = () => {
       setIsLoading(true);
       try {
         const response = await axios.get(
-          `https://www.neowsapp.com/rest/v1/neo/browse?page=0&size=20&api_key=${process.env.REACT_APP_API_KEY_NASA}`
+          `https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=${process.env.REACT_APP_API_KEY_NASA}`
         );
         const data = response.data.near_earth_objects.map((neo) => ({
           name: neo.name,
