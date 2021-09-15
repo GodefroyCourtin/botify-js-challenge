@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Chart from "react-google-charts";
-import { averageNeoDiameter } from "../../helpers/meanDiameterCalculation";
+import { averageNeoDiameter } from "../../helpers/AverageDiameterCalculation";
 
 const BarChartNeos = () => {
   const [neos, setNeos] = useState([]);
