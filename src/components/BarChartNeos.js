@@ -18,7 +18,7 @@ const BarChartNeos = () => {
       setIsLoading(true);
       try {
         const response = await axios.get(
-          `https://www.neowsapp.com/rest/v1/neo/browse?page=0&size=20&api_key=${process.env.REACT_APP_API_KEY_NASA}`
+          `https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=${process.env.REACT_APP_API_KEY_NASA}`
         );
         const data = response.data.near_earth_objects.map((neo) => ({
           name: neo.name,
@@ -47,6 +47,10 @@ const BarChartNeos = () => {
     if (filter === "all") {
       return true; // true means that all the array will be return
     }
+    // search for an orbiting body equal to the selected option in the dropdown
+    return neo.closeApproaches.some(
+      (closeApproach) => closeApproach.orbitingBody.toLowerCase() === filter // need to use toLowercase to match the differents values in html select tag
+    );
   });
 
   // sort the data to display Neos according to their average diameter (descending)
