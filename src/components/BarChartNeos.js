@@ -9,6 +9,8 @@ const BarChartNeos = () => {
   const [isLoading, setIsLoading] = useState(false);
   // error management
   const [error, setError] = useState(null);
+  // add a filter state for display a certain Neos according their orbiting body
+  const [filter, setFilter] = useState("all");
 
   // fetch Neos's data from nasa api
   useEffect(() => {
@@ -40,8 +42,15 @@ const BarChartNeos = () => {
     fetchNeos();
   }, []);
 
+  // filter data to only keep Neos according an certain orbiting body
+  const filtered = neos.filter((neo) => {
+    if (filter === "all") {
+      return true; // true means that all the array will be return
+    }
+  });
+
   // sort the data to display Neos according to their average diameter (descending)
-  const sorted = neos.sort(
+  const sorted = filtered.sort(
     (a, b) => averageNeoDiameter(b) - averageNeoDiameter(a)
   );
 
@@ -61,14 +70,14 @@ const BarChartNeos = () => {
       {isLoading && <p>Loading…</p>}
       {/* if there is an error, display the arror message  */}
       {error && <p>We encountered an error: {error.message}</p>}
-      {/* if the array contains at least one element, display the Chart */}
-      <select>
+      <select onChange={(event) => setFilter(event.target.value)}>
         <option value="all">All</option>
         <option value="earth">Earth</option>
         <option value="mars">Mars</option>
         <option value="juptr">Jupiter</option>
         <option value="merc">Mercure</option>
       </select>
+      {/* if the array contains at least one element, display the Chart */}
       {neos.length > 0 && (
         <Chart
           width={"1000px"}
