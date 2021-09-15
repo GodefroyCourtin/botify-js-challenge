@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Chart from "react-google-charts";
+import { averageNeoDiameter } from "../helpers/meanDiameterCalculation";
 
 const BarChartNeos = () => {
   const [neos, setNeos] = useState([]);
@@ -28,10 +29,15 @@ const BarChartNeos = () => {
     fetchNeos();
   }, []);
 
-  // formatting data to match with google chart data structure
+  // sort the data to display the news according to their average diameter (descending)
+  const sorted = neos.sort(
+    (a, b) => averageNeoDiameter(b) - averageNeoDiameter(a)
+  );
+
+  // format data to match with google chart data structure
   const formatData = [
-    ["Name", "Estimaded diameter max", "Estimaded diameter min"],
-    ...neos.map((neo) => [
+    ["Name", "Estimated diameter max", "Estimated diameter min"],
+    ...sorted.map((neo) => [
       neo.name,
       neo.estimated_diameter_max,
       neo.estimated_diameter_min,
