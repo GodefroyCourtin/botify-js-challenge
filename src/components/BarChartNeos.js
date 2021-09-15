@@ -16,7 +16,7 @@ const BarChartNeos = () => {
       setIsLoading(true);
       try {
         const response = await axios.get(
-          `https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=${process.env.REACT_APP_API_KEY_NASA}`
+          `https://www.neowsapp.com/rest/v1/neo/browse?page=0&size=20&api_key=${process.env.REACT_APP_API_KEY_NASA}`
         );
         const data = response.data.near_earth_objects.map((neo) => ({
           name: neo.name,
@@ -24,12 +24,16 @@ const BarChartNeos = () => {
             neo.estimated_diameter.kilometers.estimated_diameter_max,
           estimated_diameter_min:
             neo.estimated_diameter.kilometers.estimated_diameter_min,
+          closeApproaches: neo.close_approach_data.map((approach) => ({
+            orbitingBody: approach.orbiting_body,
+          })),
         }));
         setIsLoading(false);
         // set new state with data we have just fetched
         setNeos(data);
       } catch (err) {
         console.error(err);
+        // the only place we can catch errors
         setError(err);
       }
     };
@@ -58,6 +62,13 @@ const BarChartNeos = () => {
       {/* if there is an error, display the arror message  */}
       {error && <p>We encountered an error: {error.message}</p>}
       {/* if the array contains at least one element, display the Chart */}
+      <select>
+        <option value="all">All</option>
+        <option value="earth">Earth</option>
+        <option value="mars">Mars</option>
+        <option value="juptr">Jupiter</option>
+        <option value="merc">Mercure</option>
+      </select>
       {neos.length > 0 && (
         <Chart
           width={"1000px"}
@@ -67,7 +78,7 @@ const BarChartNeos = () => {
           data={formatData}
           options={{
             title:
-              "min and max estimated diameter, sorted by average estimated diameter descending",
+              "NEOS min and max estimated diameter, sorted by average estimated diameter descending",
             chartArea: { width: "50%" },
             hAxis: {
               itle: "min and max estimated diameter",
