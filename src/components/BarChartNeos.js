@@ -19,6 +19,7 @@ const BarChartNeos = () => {
           estimated_diameter_min:
             neo.estimated_diameter.kilometers.estimated_diameter_min,
         }));
+        // set new state with data we have just fetched
         setNeos(data);
       } catch (err) {
         console.error(err);
@@ -26,6 +27,16 @@ const BarChartNeos = () => {
     };
     fetchNeos();
   }, []);
+
+  // formatting data to match with google chart data structure
+  const formatData = [
+    ["Name", "Estimaded diameter max", "Estimaded diameter min"],
+    ...neos.map((neo) => [
+      neo.name,
+      neo.estimated_diameter_max,
+      neo.estimated_diameter_min,
+    ]),
+  ];
 
   return (
     <div>
@@ -35,14 +46,7 @@ const BarChartNeos = () => {
           height={"600px"}
           chartType="BarChart"
           loader={<div>Loading Chart</div>}
-          data={[
-            ["Name", "estimated diameter max", "estimated diameter min"],
-            [
-              neos[0].name,
-              neos[0].estimated_diameter_max,
-              neos[0].estimated_diameter_min,
-            ],
-          ]}
+          data={formatData}
           options={{
             title:
               "min and max estimated diameter, sorted by average estimated diameter descending",
