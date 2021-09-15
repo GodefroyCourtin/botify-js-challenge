@@ -36,7 +36,7 @@ const BarChartNeos = () => {
     fetchNeos();
   }, []);
 
-  // sort the data to display the news according to their average diameter (descending)
+  // sort the data to display Neos according to their average diameter (descending)
   const sorted = neos.sort(
     (a, b) => averageNeoDiameter(b) - averageNeoDiameter(a)
   );
