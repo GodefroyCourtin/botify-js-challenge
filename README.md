@@ -11,3 +11,7 @@ npm install
 # Run project locally
 npm start
 ```
+
+## First time you run the project
+
+Add your own environment variables by updating the .env file
