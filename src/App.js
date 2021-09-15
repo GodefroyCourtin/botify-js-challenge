@@ -1,4 +1,4 @@
-import BarChartNeos from "./components/BarChartNeos";
+import BarChartNeos from "./components/BarChartNeos/BarChartNeos";
 
 function App() {
   return (

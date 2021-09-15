@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Chart from "react-google-charts";
-import { averageNeoDiameter } from "../helpers/meanDiameterCalculation";
+import { averageNeoDiameter } from "../../helpers/AverageDiameterCalculation";
 
 const BarChartNeos = () => {
   const [neos, setNeos] = useState([]);
@@ -79,7 +79,7 @@ const BarChartNeos = () => {
         <option value="earth">Earth</option>
         <option value="mars">Mars</option>
         <option value="juptr">Jupiter</option>
-        <option value="merc">Mercure</option>
+        <option value="merc">Mercury</option>
       </select>
       {/* if the array contains at least one element, display the Chart */}
       {neos.length > 0 && (
@@ -94,7 +94,7 @@ const BarChartNeos = () => {
               "NEOS min and max estimated diameter, sorted by average estimated diameter descending",
             chartArea: { width: "50%" },
             hAxis: {
-              itle: "min and max estimated diameter",
+              title: "min and max estimated diameter",
               minValue: 0,
             },
             vAxis: {
